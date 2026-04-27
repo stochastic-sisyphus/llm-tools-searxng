@@ -2,7 +2,11 @@
 
 An [llm](https://llm.datasette.io/) plugin that exposes a `searxng_search_md` tool backed by a self-hosted [SearXNG](https://searxng.org/) instance.
 
-> **Relationship to llm-tools-searxng**: This is a markdown-output alternative to [llm-tools-searxng](https://pypi.org/project/llm-tools-searxng/) by Justyn Shull. Use that one if you want structured JSON; use this one if you want LLM-friendly markdown. This package also uses `llm keys set` for URL management and defaults to POST (better compatibility with most SearXNG instances).
+## Why markdown output
+
+LLMs work best with markdown. JSON-formatted search results waste tokens on syntax characters and require the model to mentally parse structure before it can reason about content. This plugin returns clean numbered lists — title, URL, and snippet — directly consumable by the model. Fewer tokens, less noise, faster answers.
+
+It also uses `llm keys set` for URL management (no environment variable juggling required) and defaults to POST for better compatibility with most SearXNG instances.
 
 ## Installation
 
@@ -107,6 +111,11 @@ twine upload dist/*
 ```
 
 Bump `version` in `pyproject.toml` before each release.
+
+## Related
+
+- [SearXNG](https://searxng.org/) — the self-hosted metasearch engine this plugin connects to
+- [llm](https://llm.datasette.io/) — the CLI and Python library this plugin extends
 
 ## License
 
