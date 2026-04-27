@@ -16,7 +16,11 @@ def searxng_search(query: str, max_results: int = 8) -> str:
         query: Search query string
         max_results: Max number of results to return (default 8)
     """
-    base = os.environ.get("LLM_SEARXNG_URL", "https://search.schrodingers.lol")
+    base = os.environ.get("LLM_SEARXNG_URL")
+    if not base:
+        raise RuntimeError(
+            "LLM_SEARXNG_URL environment variable must be set to your SearXNG instance URL"
+        )
     r = httpx.get(
         f"{base}/search",
         params={"q": query, "format": "json"},

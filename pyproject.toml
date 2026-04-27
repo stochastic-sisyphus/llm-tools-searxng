@@ -24,6 +24,9 @@ dependencies = [
     "httpx",
 ]
 
+[project.optional-dependencies]
+test = ["pytest", "pytest-httpx"]
+
 [project.urls]
 Homepage = "https://github.com/vanessabeck/llm-tools-searxng"
 Changelog = "https://github.com/vanessabeck/llm-tools-searxng/releases"

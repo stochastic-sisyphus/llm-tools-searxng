@@ -1,3 +1,4 @@
+import os
 import pytest
 import llm
 from unittest.mock import patch, MagicMock
@@ -12,9 +13,21 @@ def test_tool_registered():
     )
 
 
-def test_searxng_search_returns_markdown():
+def test_unset_url_raises(monkeypatch):
+    """searxng_search raises RuntimeError when LLM_SEARXNG_URL is not set."""
+    from llm_tools_searxng import searxng_search
+
+    monkeypatch.delenv("LLM_SEARXNG_URL", raising=False)
+
+    with pytest.raises(RuntimeError, match="LLM_SEARXNG_URL environment variable must be set"):
+        searxng_search("test query")
+
+
+def test_searxng_search_returns_markdown(monkeypatch):
     """searxng_search formats results as numbered markdown list."""
     from llm_tools_searxng import searxng_search
+
+    monkeypatch.setenv("LLM_SEARXNG_URL", "https://your-searxng.example.com")
 
     mock_response = MagicMock()
     mock_response.json.return_value = {
@@ -48,9 +61,11 @@ def test_searxng_search_returns_markdown():
     assert "https://searxng.org" in result
 
 
-def test_searxng_search_no_results():
+def test_searxng_search_no_results(monkeypatch):
     """searxng_search returns a helpful message when no results come back."""
     from llm_tools_searxng import searxng_search
+
+    monkeypatch.setenv("LLM_SEARXNG_URL", "https://your-searxng.example.com")
 
     mock_response = MagicMock()
     mock_response.json.return_value = {"results": []}
@@ -63,7 +78,7 @@ def test_searxng_search_no_results():
 
 
 def test_custom_base_url(monkeypatch):
-    """LLM_SEARXNG_URL env var overrides the default endpoint."""
+    """LLM_SEARXNG_URL env var sets the endpoint."""
     from llm_tools_searxng import searxng_search
 
     monkeypatch.setenv("LLM_SEARXNG_URL", "https://my-searxng.example.com")

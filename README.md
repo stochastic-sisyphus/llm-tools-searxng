@@ -16,13 +16,23 @@ llm install -e /path/to/llm-tools-searxng
 
 ## Configuration
 
-Set `LLM_SEARXNG_URL` to point at your SearXNG instance. Defaults to `https://search.schrodingers.lol`.
+Set `LLM_SEARXNG_URL` to point at your SearXNG instance. **This is required** — there is no default.
 
 ```bash
 export LLM_SEARXNG_URL=https://your-searxng.example.com
 ```
 
 The endpoint used is `$LLM_SEARXNG_URL/search?q=QUERY&format=json` — your instance must have the JSON output format enabled in its settings.
+
+## Public SearXNG instances
+
+If you don't run your own instance, several public ones are available. Check the [SearXNG instance list](https://searx.space/) for uptime and privacy policies before using one. A few commonly cited options:
+
+- `https://paulgo.io`
+- `https://search.brave4u.com`
+- `https://searx.be`
+
+Note: public instances may rate-limit or restrict the JSON API. Self-hosting is recommended for reliable tool use.
 
 ## Usage
 
@@ -56,7 +66,7 @@ Returns the top `max_results` results as a numbered markdown list with title, UR
 ## Running tests
 
 ```bash
-pip install pytest
+pip install -e '.[test]'
 pytest tests/
 ```
 
