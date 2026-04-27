@@ -2,11 +2,11 @@
 
 An [llm](https://llm.datasette.io/) plugin that exposes a `searxng_search_md` tool backed by a self-hosted [SearXNG](https://searxng.org/) instance.
 
-## Why markdown output
+## Output
 
-LLMs work best with markdown. JSON-formatted search results waste tokens on syntax characters and require the model to mentally parse structure before it can reason about content. This plugin returns clean numbered lists — title, URL, and snippet — directly consumable by the model. Fewer tokens, less noise, faster answers.
+Returns search results as a numbered markdown list. Each entry has the page title, URL, and snippet from the SearXNG result. The format is directly consumable by an LLM without further parsing.
 
-It also uses `llm keys set` for URL management (no environment variable juggling required) and defaults to POST for better compatibility with most SearXNG instances.
+The URL is read from `llm keys` (key alias `searxng_url`) and falls back to the `SEARXNG_URL` environment variable. The plugin defaults to POST for broad compatibility with SearXNG instances.
 
 ## Installation
 
@@ -29,7 +29,7 @@ llm keys set searxng_url
 # paste your SearXNG instance URL when prompted
 ```
 
-### Alternative: environment variable
+### Environment variable
 
 ```bash
 export SEARXNG_URL=https://your-searxng.example.com
@@ -55,7 +55,7 @@ If you don't run your own instance, several public ones are available. Check the
 - `https://search.brave4u.com`
 - `https://searx.be`
 
-Note: public instances may rate-limit or restrict the JSON API. Self-hosting is recommended for reliable tool use.
+Note: public instances vary in uptime and may rate-limit or restrict the JSON API. Check each instance's settings to confirm JSON output format is enabled.
 
 ## Usage
 
