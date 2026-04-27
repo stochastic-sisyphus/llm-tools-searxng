@@ -13,7 +13,7 @@ llm install llm-tools-searxng-md
 Or in editable mode from source:
 
 ```bash
-llm install -e /path/to/llm-tools-searxng
+llm install -e /path/to/llm-tools-searxng-md
 ```
 
 ## Configuration
